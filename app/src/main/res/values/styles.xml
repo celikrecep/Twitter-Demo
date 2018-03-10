@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    
+    <style name="buttonStyle">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:padding">15dp</item>
+    </style>
+
+</resources>

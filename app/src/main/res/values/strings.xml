@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TwitterDemo</string>
+    <string name="login_button">Log In</string>
+    <string name="enter_email"> Enter your email address</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="register">Register</string>
+</resources>
