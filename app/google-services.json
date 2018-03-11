@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "6994362232",
+    "firebase_url": "https://twitter-demo-23ea1.firebaseio.com",
+    "project_id": "twitter-demo-23ea1",
+    "storage_bucket": "twitter-demo-23ea1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6994362232:android:fdbadd8fe4d39995",
+        "android_client_info": {
+          "package_name": "com.loyer.twitterdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "6994362232-cmfceot9oe58tuqttiknhqjj66tl9nnk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR33aBSPVuDa44FBNWbpvgH2Cu-Pi0WZQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

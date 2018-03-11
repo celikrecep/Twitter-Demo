@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.loyer.twitterdemo.LoginActivity"
@@ -46,7 +47,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text"
         app:layout_constraintVertical_bias="0.225"
-        android:hint="@string/enter_email"/>
+        android:hint="@string/enter_email"
+        android:maxLines="1"
+        android:inputType="textEmailAddress"
+        android:imeOptions="actionNext"
+        />
 
     <EditText
         android:id="@+id/edtPassword"
@@ -62,7 +67,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text"
-        app:layout_constraintVertical_bias="0.485" />
+        app:layout_constraintVertical_bias="0.485"
+        android:maxLines="1"
+        android:inputType="textPassword"
+        android:imeOptions="actionNext"/>
 
     <Button
         android:id="@+id/btnLogin"
@@ -93,6 +101,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        app:layout_constraintVertical_bias="0.191" />
+        app:layout_constraintVertical_bias="0.191"
+        android:onClick="txtRegister"/>
 
 </android.support.constraint.ConstraintLayout>
