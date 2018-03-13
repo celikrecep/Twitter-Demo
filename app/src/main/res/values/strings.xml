@@ -9,4 +9,8 @@
     <string name="enter_name">Enter your name</string>
     <string name="confirm_pass">Confirm password</string>
     <string name="register">Register</string>
+    <string name="error_invalid_email">Email adresi geçersiz</string>
+    <string name="error_invalid_password">Parola kısa yada eşleşmiyor</string>
+    <string name="error_incorrect_password">Parola yanlış</string>
+    <string name="error_field_required">Bu alan gerekli</string>
 </resources>
