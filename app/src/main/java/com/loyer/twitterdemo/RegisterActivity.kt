@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.fragment_register.*
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,12 +36,13 @@ class RegisterActivity : AppCompatActivity() {
     private var mStorage: FirebaseStorage? = null
     private var mDatabaseReference: DatabaseReference? = null
 
+    private var user: User? = null
     private var imagePerson: ImageView? = null
     private var edtName: EditText? = null
     private var registerEmail: EditText? = null
     private var registerPass: EditText? = null
     private var registerConfirm: EditText? = null
-
+    private var isSelected = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -55,6 +55,7 @@ class RegisterActivity : AppCompatActivity() {
         registerEmail = findViewById(R.id.edtRegisterEmail)
         registerPass = findViewById(R.id.edtRegisterPass)
         registerConfirm = findViewById(R.id.edtRegisterConfirm)
+        imagePerson = findViewById(R.id.imgPP)
     }
 
     fun register(view: View){
@@ -70,9 +71,11 @@ class RegisterActivity : AppCompatActivity() {
         startActivityForResult(intent,IMAGE_PICK_CODE)
     }
 
+    //select a image from phone
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == IMAGE_PICK_CODE && data != null  ){
+            //get image
             val selectedImage = data.data
             val filePath = arrayOf(MediaStore.Images.Media.DATA)
             val cursor = contentResolver.query(selectedImage,filePath,null,null,null)
@@ -80,7 +83,8 @@ class RegisterActivity : AppCompatActivity() {
             val pathIndex = cursor.getColumnIndex(filePath[0])
             val imagePath = cursor.getString(pathIndex)
             cursor.close()
-            imgPP.setImageBitmap(BitmapFactory.decodeFile(imagePath))
+            imagePerson!!.setImageBitmap(BitmapFactory.decodeFile(imagePath))
+            isSelected = true
 
         }
     }
@@ -95,6 +99,39 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    //upload image to FireBase
+    private fun saveImageInFireBase(currentUser: FirebaseUser?){
+        val storageRef = mStorage!!.getReferenceFromUrl("gs://twitter-demo-23ea1.appspot.com")
+        //we gonna use time for create an id of image
+        val dateFormat = SimpleDateFormat("ddMMyyHHmmss")
+        val dataObj = Date()
+        //created id of image
+        val imagePath = currentUser!!.uid + dateFormat.format(dataObj) + ".jpg"
+        val imageRef = storageRef.child("images/$imagePath")
+
+            val drawable = imagePerson!!.drawable as BitmapDrawable
+            val bitmap = drawable.bitmap
+            val stream = ByteArrayOutputStream()
+        //image quality
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream)
+            val data = stream.toByteArray()
+
+
+            val uploadTask = imageRef.putBytes(data)
+
+            uploadTask.addOnSuccessListener {taskSnapshot ->
+
+                val downloadUrl = taskSnapshot.downloadUrl!!.toString()
+                val id = currentUser!!.uid
+                val name: String? = edtName!!.text.toString()
+                user = User(id,name,downloadUrl)
+                mDatabaseReference!!.child("users").child(id).setValue(user)
+
+            }
+
+
     }
 
 
@@ -158,8 +195,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun createFireBaseUser() {
-        var email: String = registerEmail?.text!!.toString()
-        var password: String = registerPass?.text!!.toString()
+        val email: String = registerEmail?.text!!.toString()
+        val password: String = registerPass?.text!!.toString()
 
         mAuth!!.createUserWithEmailAndPassword(email,password)!!.addOnCompleteListener {
             task ->
@@ -170,6 +207,8 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Kayıt başarılı", Toast.LENGTH_SHORT).show()
             }
         }
+
+        signInAndSignOut()
     }
 
     private fun showErrorDialog(message: String) {
@@ -179,5 +218,15 @@ class RegisterActivity : AppCompatActivity() {
                 .setPositiveButton(android.R.string.ok, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show()
+    }
+
+    private fun signInAndSignOut(){
+        val email: String = registerEmail!!.text.toString()
+        val pass: String = registerPass!!.text.toString()
+
+        mAuth!!.signInWithEmailAndPassword(email,pass).addOnCompleteListener {
+           saveImageInFireBase(mAuth!!.currentUser)
+        }
+
     }
 }
