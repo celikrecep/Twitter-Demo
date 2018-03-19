@@ -9,7 +9,7 @@
     android:background="@color/blue">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.loyer.twitterdemo.CircleImageView
         android:id="@+id/imgPP"
         android:layout_width="match_parent"
         android:layout_height="150dp"
