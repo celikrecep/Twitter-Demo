@@ -9,6 +9,7 @@
     tools:context="com.loyer.twitterdemo.MainActivity">
 
     <ListView
+        android:id="@+id/lstTweets"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 

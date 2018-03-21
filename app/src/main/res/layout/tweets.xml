@@ -35,6 +35,7 @@
               android:background="@color/gray"/>
 
             <TextView
+                android:id="@+id/txtUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/username"
@@ -43,6 +44,7 @@
                 android:textStyle="bold"/>
 
             <TextView
+                android:id="@+id/txtDate"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/default_date"
@@ -51,6 +53,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txtPost"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/tweet_default_text"
@@ -60,7 +63,8 @@
             android:id="@+id/imgTweetImage"
             android:layout_width="fill_parent"
             android:layout_height="250dp"
-            android:padding="20dp"/>
+            android:padding="20dp"
+            android:src="@drawable/ic_default_user_image"/>
 
         <LinearLayout
             android:orientation="horizontal"
