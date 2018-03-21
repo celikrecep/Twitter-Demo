@@ -1,7 +1,7 @@
-package com.loyer.twitterdemo
+package com.loyer.twitterdemo.model
 
 /**
- * Created by loyer on 13.03.2018.
+ * Created by loyer on 21.03.2018.
  */
 class User {
     constructor(id: String? , name: String?, image: String?):this(){

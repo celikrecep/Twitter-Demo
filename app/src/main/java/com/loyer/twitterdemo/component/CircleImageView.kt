@@ -1,34 +1,24 @@
-package com.loyer.twitterdemo
-
-
+package com.loyer.twitterdemo.component
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.BitmapShader
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.Matrix
-import android.graphics.Outline
 import android.graphics.Paint
-import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
-import android.support.annotation.RequiresApi
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewOutlineProvider
 import android.widget.ImageView
 /**
- * Created by loyer on 19.03.2018.
+ * Created by loyer on 20.03.2018.
  */
 class CircleImageView: ImageView {
 

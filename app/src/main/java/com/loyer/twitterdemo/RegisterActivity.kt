@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.loyer.twitterdemo.model.User
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -104,11 +105,9 @@ class RegisterActivity : AppCompatActivity() {
     //upload image to FireBase
     private fun saveImageInFireBase(currentUser: FirebaseUser?){
         val storageRef = mStorage!!.getReferenceFromUrl("gs://twitter-demo-23ea1.appspot.com")
-        //we gonna use time for create an id of image
-        val dateFormat = SimpleDateFormat("ddMMyyHHmmss")
-        val dataObj = Date()
-        //created id of image
-        val imagePath = currentUser!!.uid + dateFormat.format(dataObj) + ".jpg"
+
+
+        val imagePath = generateId(currentUser)
         val imageRef = storageRef.child("images/$imagePath")
 
             val drawable = imagePerson!!.drawable as BitmapDrawable
@@ -133,7 +132,17 @@ class RegisterActivity : AppCompatActivity() {
 
 
     }
+    //created id of image
+    private fun generateId(currentUser: FirebaseUser?): String{
+        //we gonna use time for create an id of image
+        val dateFormat = SimpleDateFormat("ddMMyyHHmmss")
+        val dataObj = Date()
 
+        val imagePath = currentUser!!.email + dateFormat.format(dataObj) + ".jpg"
+
+        return imagePath
+
+    }
 
     private fun makeRequest(){
         ActivityCompat.requestPermissions(this

@@ -9,8 +9,12 @@
     <string name="enter_name">Enter your name</string>
     <string name="confirm_pass">Confirm password</string>
     <string name="register">Register</string>
-    <string name="error_invalid_email">Email adresi geçersiz</string>
-    <string name="error_invalid_password">Parola kısa yada eşleşmiyor</string>
-    <string name="error_incorrect_password">Parola yanlış</string>
-    <string name="error_field_required">Bu alan gerekli</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">Password too short or does not match</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="ticket_hint">What do you think?</string>
+    <string name="tweet_default_text">Something will come here, but you decide what</string>
+    <string name="default_date">21.03.2018</string>
+    <string name="username">Username</string>
 </resources>
