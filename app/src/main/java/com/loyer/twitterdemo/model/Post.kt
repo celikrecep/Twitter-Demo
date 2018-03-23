@@ -1,8 +1,8 @@
 package com.loyer.twitterdemo.model
 
 /**
- * Created by loyer on 21.03.2018.
- */
+* Created by loyer on 21.03.2018.
+*/
 class Post {
     var tweetID: String? = null
     var tweetText: String? = null

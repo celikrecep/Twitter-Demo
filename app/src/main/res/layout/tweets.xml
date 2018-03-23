@@ -17,6 +17,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:paddingRight="5dp"
         android:paddingTop="2dp"
         android:paddingBottom="1dp">
@@ -62,7 +63,7 @@
         <ImageView
             android:id="@+id/imgTweetImage"
             android:layout_width="fill_parent"
-            android:layout_height="250dp"
+            android:layout_height="150dp"
             android:padding="20dp"
             android:src="@drawable/ic_default_user_image"/>
 
@@ -71,11 +72,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/imgFavorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_favorite"/>
+                android:background="@drawable/ic_favorite"/>
 
         </LinearLayout>
     </LinearLayout>

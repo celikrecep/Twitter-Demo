@@ -1,6 +1,7 @@
 package com.loyer.twitterdemo
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -44,6 +45,7 @@ class RegisterActivity : AppCompatActivity() {
     private var registerPass: EditText? = null
     private var registerConfirm: EditText? = null
     private var isSelected = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -67,7 +69,7 @@ class RegisterActivity : AppCompatActivity() {
     fun loadImage(view: View){
         setupPermission()
 
-        var intent = Intent(Intent.ACTION_PICK,
+        val intent = Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent,IMAGE_PICK_CODE)
     }
@@ -133,14 +135,13 @@ class RegisterActivity : AppCompatActivity() {
 
     }
     //created id of image
+    @SuppressLint("SimpleDateFormat")
     private fun generateId(currentUser: FirebaseUser?): String{
         //we gonna use time for create an id of image
         val dateFormat = SimpleDateFormat("ddMMyyHHmmss")
         val dataObj = Date()
 
-        val imagePath = currentUser!!.email + dateFormat.format(dataObj) + ".jpg"
-
-        return imagePath
+        return currentUser!!.email + dateFormat.format(dataObj) + ".jpg"
 
     }
 
@@ -165,8 +166,8 @@ class RegisterActivity : AppCompatActivity() {
         registerEmail!!.error = null
         registerPass!!.error = null
 
-        var email: String = registerEmail!!.text.toString()
-        var password: String = registerPass!!.text.toString()
+        val email: String = registerEmail!!.text.toString()
+        val password: String = registerPass!!.text.toString()
         var cancel = false
         var focusView: View? = null
 
@@ -196,7 +197,7 @@ class RegisterActivity : AppCompatActivity() {
     //password check
     private fun isValidPassword(password: String): Boolean {
         val confirmPassword = registerConfirm?.text!!.toString()
-        return confirmPassword.equals(password) && password.length > 6
+        return confirmPassword == password && password.length > 6
     }
     //email check
     private fun isEmailValid(email: String): Boolean {
@@ -207,17 +208,21 @@ class RegisterActivity : AppCompatActivity() {
         val email: String = registerEmail?.text!!.toString()
         val password: String = registerPass?.text!!.toString()
 
-        mAuth!!.createUserWithEmailAndPassword(email,password)!!.addOnCompleteListener {
+        mAuth!!.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
             task ->
             if(!task.isSuccessful){
                 Log.d(TAG, "user creation failed")
                 showErrorDialog("Registration attempt failed")
             } else {
                 Toast.makeText(this, "Kayıt başarılı", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@RegisterActivity,LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+                signInAndSignOut()
             }
         }
 
-        signInAndSignOut()
+
     }
 
     private fun showErrorDialog(message: String) {
