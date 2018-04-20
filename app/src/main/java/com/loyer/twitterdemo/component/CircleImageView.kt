@@ -18,8 +18,8 @@ import android.support.annotation.DrawableRes
 import android.util.AttributeSet
 import android.widget.ImageView
 /**
- * Created by loyer on 20.03.2018.
- */
+* Created by loyer on 20.03.2018.
+*/
 class CircleImageView: ImageView {
 
     //default variables

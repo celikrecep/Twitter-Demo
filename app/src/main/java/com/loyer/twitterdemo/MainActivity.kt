@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -16,46 +18,50 @@ import android.widget.EditText
 import android.widget.ListView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.loyer.twitterdemo.model.Post
 import com.loyer.twitterdemo.model.PostInfo
+import com.loyer.twitterdemo.model.TweetListAdapter
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
 
     private val IMAGE_PICK_CODE = 101
-    private var list = ArrayList<Post>()
-    private var mTweetList: ListView? = null
-    private var adapter: TweetListAdapter? = null
     private var TAG = "Main"
+
+    private var list = ArrayList<Post>()
     private var downloadURL:String?=""
+    private var imagePath: String? = null
+
+    private var mPostInfo: PostInfo? = null
+    private var adapter: TweetListAdapter? = null
+
 
     private var mEditThink: EditText? = null
-    private var mPostInfo: PostInfo? = null
+    private var mTweetList: RecyclerView? = null
+
     private var mAuth: FirebaseAuth? = null
-    private var mDatabaseReference: DatabaseReference? = null
+    private lateinit  var mDatabaseReference: DatabaseReference
     private var mStorage: FirebaseStorage? = null
-    private var imagePath: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         mAuth = FirebaseAuth.getInstance()
         mStorage = FirebaseStorage.getInstance()
         mDatabaseReference = FirebaseDatabase.getInstance().reference
 
-        mTweetList = findViewById(R.id.lstTweets)
+        mTweetList = findViewById(R.id.recyclerViewTweets)
         mEditThink = findViewById(R.id.edtThink)
 
-        //for adapter testing
-        list.add(Post("0","him","url","loyer"))
-        list.add(Post("0","him","url","nLoyer"))
-
-        adapter = TweetListAdapter(list,this)
+        adapter = TweetListAdapter(applicationContext,mDatabaseReference)
+        mTweetList!!.layoutManager = LinearLayoutManager(this)
         mTweetList!!.adapter = adapter
 
     }
@@ -117,7 +123,7 @@ class MainActivity : AppCompatActivity() {
             val uID: String = mAuth!!.currentUser!!.uid
             mPostInfo = PostInfo(uID,think,downloadURL)
             //push post to Database
-            mDatabaseReference!!.child("posts").child(uID)
+            mDatabaseReference!!.child("posts")
                     .child(generateId(mAuth!!.currentUser,false))
                     .setValue(mPostInfo)
         }
@@ -139,6 +145,38 @@ class MainActivity : AppCompatActivity() {
             uID
         }
     }
+
+   private fun loadPost(){
+        mDatabaseReference!!.child("posts")
+                .addValueEventListener(object : ValueEventListener{
+
+                    override fun onCancelled(p0: DatabaseError?) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot?) {
+                        try {
+
+                            val snapShot = p0!!.value as HashMap<String,Any>
+
+                            for(key in snapShot.keys)
+                            {
+                                val post = snapShot[key] as HashMap<*,*>
+                                list.add(Post(key,
+                                        post["text"] as String,
+                                        post["postImage"] as String,
+                                        post["userUID"] as String))
+                            }
+
+                            adapter!!.notifyDataSetChanged()
+                        }catch (e: Exception){
+                            e.printStackTrace()
+                        }
+                    }
+
+                })
+    }
+
 
 
 }
