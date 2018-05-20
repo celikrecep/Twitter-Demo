@@ -1,6 +1,8 @@
 package com.loyer.twitterdemo.model
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -10,11 +12,15 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.loyer.twitterdemo.MainActivity
 import com.loyer.twitterdemo.R
 import com.loyer.twitterdemo.inflate
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.tweets.view.*
+import java.io.BufferedInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.net.URL
+import java.net.URLConnection
 
 /**
  * Created by loyer on 19.04.2018.
@@ -64,13 +70,15 @@ class TweetListAdapter(private var context: Context,
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
+
         fun bind(snapshot: DataSnapshot,context: Context) {
 
             val post = snapshot.value  as HashMap<*,*>
             itemView.txtPost.text =  post["text"] as String
+
             val uri = post["postImage"] as String
-            Picasso.with(context).load(uri).into(itemView.imgTweetImage)
-            Log.d("deneme",uri)
+            Picasso.with(context).load(uri).resize(400,150).into(itemView.imgTweetImage)
 
         }
 
